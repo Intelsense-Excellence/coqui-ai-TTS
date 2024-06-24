@@ -9,7 +9,8 @@ from num2words import num2words
 from spacy.lang.ar import Arabic
 from spacy.lang.en import English
 from spacy.lang.es import Spanish
-from spacy.lang.hi import Hindi
+# from spacy.lang.hi import Hindi
+from spacy.lang.bn import Bengali
 from spacy.lang.ja import Japanese
 from spacy.lang.zh import Chinese
 from tokenizers import Tokenizer
@@ -29,8 +30,8 @@ def get_spacy_lang(lang):
         return Arabic()
     elif lang == "es":
         return Spanish()
-    elif lang == "hi":
-        return Hindi()
+    elif lang == "bn":
+        return Bengali()
     else:
         # For most languages, English does the job
         return English()
@@ -429,6 +430,19 @@ _symbols_multilingual = {
             ("°", " 도 "),
         ]
     ],
+    "bn": [
+        # Bengali
+        (re.compile(r"%s" % re.escape(x[0]), re.IGNORECASE), x[1])
+        for x in [
+            ("&", " এবং "),
+            ("@", " এ "),
+            ("%", " শতাংশ "),
+            ("#", " হ্যাশ "),
+            ("$", " ডলার "),
+            ("£", " পাউন্ড "),
+            ("°", " ডিগ্রি "),
+        ]
+    ],
 }
 
 
@@ -624,7 +638,7 @@ class VoiceBpeTokenizer:
             "ja": 71,
             "hu": 224,
             "ko": 95,
-            "hi": 150,
+            "bn": 250,
         }
 
     @cached_property
@@ -652,7 +666,7 @@ class VoiceBpeTokenizer:
                 txt = korean_transliterate(txt)
         elif lang == "ja":
             txt = japanese_cleaners(txt, self.katsu)
-        elif lang == "hi":
+        elif lang == "bn":
             # @manmay will implement this
             txt = basic_cleaners(txt)
         else:
