@@ -638,7 +638,7 @@ class VoiceBpeTokenizer:
             "ja": 71,
             "hu": 224,
             "ko": 95,
-            "bn": 250,
+            "bn": 512,
         }
 
     @cached_property
